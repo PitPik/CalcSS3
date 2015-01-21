@@ -176,9 +176,9 @@
 			holdKey = hold.textContent,
 			keyMatch = (',|.|-|–|/|÷|*|×|#|+/–|x|x!|E|EE|e|ex| |2nd|r|x√y|R|√|p|π|^|yx|\'|yx|"|yx|m|mr|v|mc|b|m+|n|m-|' +
 				's|sin|c|cos|t|tan|S|sin-1|C|cos-1|T|tan-1|d|Deg|°|Deg|l|ln|L|log|\\|1/x|X|2x').split('|'),
-			keyMatchHold = 'sin|sinh|cos|cosh|tan|tanh|m-|Rand|Deg|Rand|sin-1|sinh-1|cos-1|cosh-1|tan-1|tanh-1|' +
-				'1|1/x|2|x2|3|x3|x√y|√|ln|log2|ex|2x'.split('|');
-		//if (key === 120 || key === 121) return;
+			keyMatchHold = ('sin|sinh|cos|cosh|tan|tanh|m-|Rand|Deg|Rand|sin-1|sinh-1|cos-1|cosh-1|tan-1|tanh-1|' +
+				'1|1/x|2|x2|3|x3|x√y|√|ln|log2|ex|2x').split('|');
+
 		if (key === 13) key = 61;
 		key = String.fromCharCode(key);
 		for (var n = 0, m = keyMatch.length; n < m; n = n + 2)
@@ -188,7 +188,7 @@
 			}
 		if (holdKey) {
 			for (var n = 0, m = keyMatchHold.length; n < m; n = n + 2)
-				if (key === keyMatchHold[n]) {
+				if (key == keyMatchHold[n]) {
 					key = key.replace(key, keyMatchHold[n + 1]);
 					break
 				}
