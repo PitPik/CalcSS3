@@ -9,4 +9,4 @@ Find some more info/help by clicking the '?' in the left top corner of the calcu
 ##Demo
 See **demo** at [dematte.at/CalcSS3/](http://www.dematte.at/CalcSS3/)
 
-<img src="images/screenShot.png" />
+<img src="images/screenShot.jpg" />
