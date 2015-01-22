@@ -2,7 +2,7 @@
 
 .calc-main {
 	display: block;
-	width: 480px;
+	/* width: 480px; */ /* only needed in Chrome extension */
 	padding: 16px 10px 18px;
 	font: bold 15px/28px Arial, Helvetica, sans-serif;
 	border-radius: 12px;
@@ -27,7 +27,7 @@
 	clear: both;
 }
 .calc-small {
-	width: 240px;
+	/* width: 240px; */ /* only needed in Chrome extension */
 }
 
 /* --------- display --------- */
@@ -146,19 +146,19 @@
 }
 
 .calc-small .calc-left {
-	display: none
+	display: none;
 }
 .calc-f17 {
-	font-size: 17px
+	font-size: 17px;
 }
 .calc-f18 {
-	font-size: 18px
+	font-size: 18px;
 }
 .calc-f19 {
-	font-size: 19px
+	font-size: 19px;
 }
 .calc-f21 {
-	font-size: 21px
+	font-size: 21px;
 }
 .calc-main textarea {
 	position: absolute;
@@ -198,7 +198,6 @@
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
 	text-align: center;
 	background: #656e72;
-	/*#705f55;*/
 	
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
@@ -214,7 +213,7 @@
 	text-shadow:
 		0px  0px  8px  rgb(255, 230, 186),
 		0px  0px 22px  rgb(255, 255, 255),
-		0px -1px  0px rgba(  0,   0,   0, 0.5)
+		0px -1px  0px rgba(  0,   0,   0, 0.5);
 }
 .calc-right .calc-eq {
 	height: 68px;
@@ -231,21 +230,21 @@
 	display: block;
 	position: absolute;
 	left: 14px;
-	top: 6px
+	top: 6px;
 }
 .calc-radxy em {
 	font-weight: normal;
 	font-size: 16px;
-	padding-right: 2px
+	padding-right: 2px;
 }
 .calc-right .calc-zero {
-	width: 110px
+	width: 110px;
 }
 .calc-right .calc-zero div {
-	text-align: left
+	text-align: left;
 }
 .calc-right .calc-zero span {
-	padding-left: 22px
+	padding-left: 22px;
 }
 .calc-blank {
 	border-color: transparent;
@@ -255,10 +254,10 @@
 	clear: right;
 }
 .calc-right .calc-brown > div {
-	background-color: #635045
+	background-color: #635045;
 }
 .calc-right .calc-brown {
-	background-color: #4b3c34
+	background-color: #4b3c34;
 }
 
 .calc-right .calc-black > div {
@@ -269,7 +268,7 @@
 		inset 0   8px 6px rgba(255, 255, 255, 0.2);
 }
 .calc-right .calc-black {
-	background-color: #181818
+	background-color: #181818;
 }
 .calc-right .calc-orange > div {
 	background-color: #FF7113;
