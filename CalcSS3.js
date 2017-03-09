@@ -41,13 +41,25 @@
 
 			this.curr = true;
 
-			this.rank = {
-				'=': 0,
-				'+': 1, '-': 1,
-				'/': 2, '*': 2,
-				'yx': 3, 'x√y': 3, 'EE': 3
+			// this determine the order of operations
+			// for the basic calculator layout we need +, -, /, * to be 1, and remove everything for 3
+			// for the scientific calculator this is what we want
+			console.log("bigger " + bigger)
+			if (bigger) {
+				this.rank = {
+					'=': 0,
+					'+': 1, '-': 1,
+					'/': 2, '*': 2,
+					'yx': 3, 'x√y': 3, 'EE': 3
+				}
+			} else {
+				this.rank = {
+					'=': 0,
+					'+': 1, '-': 1,
+					'/': 1, '*': 1,
+				}
 			};
-		};			
+		};
 
 	Calculator.prototype.calc = function(key, val) {
 		var rank = this.rank;
@@ -133,7 +145,7 @@
 
 
 	calculator[0] = new Calculator();
-	
+
 	// recover after reload or crash...
 	(function(localStorage) {
 		if (!localStorage || !localStorage['resBuffer']) {
@@ -365,6 +377,11 @@
 		helpButton.active = !!doIt;
 	}
 
+	//we need to modify this function to record whether the calc is big or small
+	//so that we can choose the button ranks appropriately
+	//it actually does this with the variable bigger
+	//toggleCalc should also clear the stack and buffers since the order
+	// of operations will be different between the two
 	function toggleCalc(doIt) {
 		var cName = calcSS3.className;
 
@@ -376,6 +393,7 @@
 			cName.replace(' calc-small', '') :
 			cName + ' calc-small';
 		smallerButton.firstChild.data = bigger ? '>' : '<';
+		calculator[++brackets] = new Calculator();
 		render(resBuffer);
 	}
 
