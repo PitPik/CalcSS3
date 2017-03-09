@@ -393,7 +393,7 @@
 			cName.replace(' calc-small', '') :
 			cName + ' calc-small';
 		smallerButton.firstChild.data = bigger ? '>' : '<';
-		calculator[++brackets] = new Calculator();
+		calculator[brackets] = new Calculator();
 		render(resBuffer);
 	}
 
