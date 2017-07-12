@@ -21,7 +21,7 @@
 		deg = false, // Deg mode or Rad
 		memory = 0,
 		resBuffer = '0',
-		bigger = false, // app size
+		bigger = true, // app size
 		ln = 0,
 		buffStr = [],
 		sav = ['secondActive', 'deg', 'memory', 'buffStr', 'resBuffer'],
@@ -384,16 +384,22 @@
 	// of operations will be different between the two
 	function toggleCalc(doIt) {
 		var cName = calcSS3.className;
-
 		if (doIt) {
 			bigger = !bigger;
 		}
 		localStorage['bigger'] = bigger;
+		//clearing buffer and local storage
+		resBuffer='0';
+		localStorage['resBuffer'] = resBuffer;
+		localStorage['buffStr'] = '0';
+		calculator = [];
+
 		calcSS3.className = bigger ?
 			cName.replace(' calc-small', '') :
 			cName + ' calc-small';
 		smallerButton.firstChild.data = bigger ? '>' : '<';
-		calculator[brackets] = new Calculator();
+		//starting a new calculator to avoid order of operations confusion
+		calculator[0] = new Calculator();
 		render(resBuffer);
 	}
 
