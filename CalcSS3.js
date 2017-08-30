@@ -21,7 +21,7 @@
 		deg = false, // Deg mode or Rad
 		memory = 0,
 		resBuffer = '0',
-		bigger = false, // app size
+		bigger = true, // app size
 		ln = 0,
 		buffStr = [],
 		sav = ['secondActive', 'deg', 'memory', 'buffStr', 'resBuffer'],
@@ -41,17 +41,28 @@
 
 			this.curr = true;
 
-			this.rank = {
-				'=': 0,
-				'+': 1, '-': 1,
-				'/': 2, '*': 2,
-				'yx': 3, 'x√y': 3, 'EE': 3
+			// this determine the order of operations
+			// for the basic calculator layout we need +, -, /, * to be 1, and remove everything for 3
+			// for the scientific calculator this is what we want
+			console.log("bigger " + bigger)
+			if (bigger) {
+				this.rank = {
+					'=': 0,
+					'+': 1, '-': 1,
+					'/': 2, '*': 2,
+					'yx': 3, 'x√y': 3, 'EE': 3
+				}
+			} else {
+				this.rank = {
+					'=': 0,
+					'+': 1, '-': 1,
+					'/': 1, '*': 1,
+				}
 			};
-		};			
+		};
 
 	Calculator.prototype.calc = function(key, val) {
 		var rank = this.rank;
-
 		if (key === '%') {
 			this.curr = 'funk';
 			return (this.stack[0] ? this.stack[this.num - 1][0] / 100 * val : val / 100) + '';
@@ -133,7 +144,7 @@
 
 
 	calculator[0] = new Calculator();
-	
+
 	// recover after reload or crash...
 	(function(localStorage) {
 		if (!localStorage || !localStorage['resBuffer']) {
@@ -365,17 +376,29 @@
 		helpButton.active = !!doIt;
 	}
 
+	//we need to modify this function to record whether the calc is big or small
+	//so that we can choose the button ranks appropriately
+	//it actually does this with the variable bigger
+	//toggleCalc should also clear the stack and buffers since the order
+	// of operations will be different between the two
 	function toggleCalc(doIt) {
 		var cName = calcSS3.className;
-
 		if (doIt) {
 			bigger = !bigger;
 		}
 		localStorage['bigger'] = bigger;
+		//clearing buffer and local storage
+		resBuffer='0';
+		localStorage['resBuffer'] = resBuffer;
+		localStorage['buffStr'] = '0';
+		calculator = [];
+
 		calcSS3.className = bigger ?
 			cName.replace(' calc-small', '') :
 			cName + ' calc-small';
 		smallerButton.firstChild.data = bigger ? '>' : '<';
+		//starting a new calculator to avoid order of operations confusion
+		calculator[0] = new Calculator();
 		render(resBuffer);
 	}
 
@@ -433,6 +456,12 @@
 				replace(/\s/g, ln === 1 ? ' ' : ln === 2 ? ',' : '.').
 				replace(/#/g, ln === 2 ? '.' : ',');
 		}
+		/*As I understand it, resBuffer, val and tmp are all related. They are effectively
+		different versions of the value that is displayed and used or stored.
+		I've added rounding to the variable tmp because this variable is used everytime something is entered,
+		whereas val and resBuffer are only used when certain keys are pressed.
+		*/
+		tmp = roundToLargestPrecision(val);
 		display.firstChild.data = tmp;
 		// for common use: get values of pixels dynamically to stay free from design (...but outside this function)
 		displayStyle.fontSize = '45px';
@@ -441,6 +470,15 @@
 			displayStyle.fontSize = (fontSize--) + 'px';
 			displayParentStyle.lineHeight = (fontSize + 18) + 'px'
 		}
+	}
+
+	function roundToLargestPrecision(val) {
+		//val is a string
+		//this function uses to precision to round to a specific number of significant figures
+		//first this rounds this to avoid displaying extra zeros (since sig figs show zeros)
+		var n = 14; //precision, can be changed to meet needs
+		var valAsNum = Number(val).toPrecision(n);
+		return String(Math.round(valAsNum * Math.pow(10,n))/Math.pow(10,n));
 	}
 
 	function doKey(text, alt) {
