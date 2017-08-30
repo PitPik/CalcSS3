@@ -63,7 +63,6 @@
 
 	Calculator.prototype.calc = function(key, val) {
 		var rank = this.rank;
-
 		if (key === '%') {
 			this.curr = 'funk';
 			return (this.stack[0] ? this.stack[this.num - 1][0] / 100 * val : val / 100) + '';
@@ -457,6 +456,12 @@
 				replace(/\s/g, ln === 1 ? ' ' : ln === 2 ? ',' : '.').
 				replace(/#/g, ln === 2 ? '.' : ',');
 		}
+		/*As I understand it, resBuffer, val and tmp are all related. They are effectively
+		different versions of the value that is displayed and used or stored.
+		I've added rounding to the variable tmp because this variable is used everytime something is entered,
+		whereas val and resBuffer are only used when certain keys are pressed.
+		*/
+		tmp = roundToLargestPrecision(val);
 		display.firstChild.data = tmp;
 		// for common use: get values of pixels dynamically to stay free from design (...but outside this function)
 		displayStyle.fontSize = '45px';
@@ -465,6 +470,15 @@
 			displayStyle.fontSize = (fontSize--) + 'px';
 			displayParentStyle.lineHeight = (fontSize + 18) + 'px'
 		}
+	}
+
+	function roundToLargestPrecision(val) {
+		//val is a string
+		//this function uses to precision to round to a specific number of significant figures
+		//first this rounds this to avoid displaying extra zeros (since sig figs show zeros)
+		var n = 14; //precision, can be changed to meet needs
+		var valAsNum = Number(val).toPrecision(n);
+		return String(Math.round(valAsNum * Math.pow(10,n))/Math.pow(10,n));
 	}
 
 	function doKey(text, alt) {
